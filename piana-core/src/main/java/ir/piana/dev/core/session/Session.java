@@ -1,0 +1,134 @@
+package ir.piana.dev.core.session;
+
+import ir.piana.dev.secure.crypto.CryptoAttribute;
+import ir.piana.dev.secure.crypto.CryptoMaker;
+import ir.piana.dev.core.role.RoleType;
+import ir.piana.dev.core.websocket.PianaWebSocketHandler;
+
+import java.security.KeyPair;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+/**
+ * @author Mohammad Rahmati, 4/18/2017 4:30 PM
+ */
+public class  Session<T> {
+    private T existance;
+    private boolean wrongdoer;
+    private String sessionName;
+    private KeyPair keyPair;
+    private RoleType roleType;
+    private String sessionKey;
+    private PianaWebSocketHandler webSocketHandler;
+    private Map<String, String> stringMap;
+    private Map<String, Object> objectMap;
+
+    Session(String sessionName,
+            KeyPair keyPair,
+            RoleType roleType) {
+        this(sessionName, keyPair, roleType, null);
+    }
+
+    Session(String sessionName,
+            KeyPair keyPair,
+            RoleType roleType,
+            String sessionKey) {
+        this.sessionName = sessionName;
+        this.keyPair = keyPair;
+        this.roleType = roleType;
+        this.sessionKey = sessionKey;
+        this.stringMap = new LinkedHashMap<>();
+        this.objectMap = new LinkedHashMap<>();
+    }
+
+    public KeyPair getKeyPair() {
+        return keyPair;
+    }
+
+    void setKeyPair(KeyPair keyPair) {
+        this.keyPair = keyPair;
+    }
+
+    public String getSessionKey() {
+        return sessionKey;
+    }
+
+    void setSessionKey(String sessionKey) {
+        this.sessionKey = sessionKey;
+    }
+
+    public RoleType getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(RoleType roleType) {
+        this.roleType = roleType;
+    }
+
+    public byte[] getPublicKeyBytes() {
+        return keyPair.getPublic().getEncoded();
+    }
+
+    public void setString(String key, String value) {
+        this.stringMap.put(key, value);
+    }
+
+    public String getString(String key) {
+        return this.stringMap.get(key);
+    }
+
+    public String removeString(String key) {
+        return this.stringMap.remove(key);
+    }
+
+    public void clearString() {
+        this.stringMap.clear();
+    }
+
+    public void setObject(String key, Object value) {
+        this.objectMap.put(key, value);
+    }
+
+    public Object getObject(String key) {
+        return this.objectMap.get(key);
+    }
+
+    public Object removeObject(String key) {
+        return this.objectMap.remove(key);
+    }
+
+    public void clearObject() {
+        this.objectMap.clear();
+    }
+
+    public byte[] decrypt(byte[] rawMessage)
+            throws Exception {
+        return CryptoMaker.decrypt(rawMessage,
+                keyPair.getPrivate(),
+                CryptoAttribute.RSA);
+    }
+
+    public Boolean isWrongdoer() {
+        return wrongdoer;
+    }
+
+    public void setWrongdoer(Boolean wrongdoer) {
+        this.wrongdoer = wrongdoer;
+    }
+
+    public PianaWebSocketHandler getWebSocketHandler() {
+        return webSocketHandler;
+    }
+
+    public void setWebSocketHandler(PianaWebSocketHandler webSocketHandler) {
+        this.webSocketHandler = webSocketHandler;
+    }
+
+    public T getExistance() {
+        return existance;
+    }
+
+    public void setExistance(T existance) {
+        this.existance = existance;
+    }
+}
