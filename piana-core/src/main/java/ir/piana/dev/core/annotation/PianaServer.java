@@ -13,7 +13,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE) //on class level
 public @interface PianaServer {
-    HttpServerType serverType() default HttpServerType.JETTY;
     String host() default "localhost";
     int httpPort() default 8000;
     SSLServer sslServer() default @SSLServer;
