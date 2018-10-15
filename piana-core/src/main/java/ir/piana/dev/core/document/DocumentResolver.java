@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by SYSTEM on 7/17/2017.
+ * @author Mohammad Rahmati, 5/7/2017 5:20 PM
  */
 public abstract class DocumentResolver {
     private static Logger logger = Logger.getLogger(

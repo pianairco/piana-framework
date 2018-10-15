@@ -53,12 +53,20 @@ public class SessionManager {
         try {
             Cookie cookie = httpHeaders.getCookies()
                     .get(serverSession.sessionName());
+            String sessionKey = null;
             if(cookie == null ||
                     cookie.getValue() == null ||
-                    cookie.getValue().isEmpty())
+                    cookie.getValue().isEmpty()) {
+                String authorization = httpHeaders.getHeaderString("Authorization");
+                if(authorization != null && authorization.startsWith("Bearer"))
+                    sessionKey = authorization.substring(7);
+            } else{
+                sessionKey = cookie.getValue();
+            }
+            if(sessionKey == null)
                 return null;
             session = (Session) cacheProvider
-                    .retrieveIfExist(cookie.getValue());
+                    .retrieveIfExist(sessionKey);
         } catch (Exception e) {
             logger.info(e.getMessage());
         }
@@ -74,15 +82,16 @@ public class SessionManager {
                     .get(serverSession.sessionName());
             if(cookie != null) {
                 sessionKey = cookie.getValue();
-                if(sessionKey == null || sessionKey.isEmpty())
-                    sessionKey = createSessionKey();
-                session = (Session) cacheProvider
-                        .retrieve(sessionKey);
-            } else {
-                sessionKey = createSessionKey();
-                session = (Session) cacheProvider
-                        .retrieve(sessionKey);
+            } else if(cookie == null) {
+                String authorization = httpHeaders.getHeaderString("Authorization");
+                if(authorization != null && authorization.startsWith("Bearer"))
+                 sessionKey = authorization.substring(7);
             }
+            if (sessionKey == null || sessionKey.isEmpty()){
+                sessionKey = createSessionKey();
+            }
+            session = (Session) cacheProvider
+                    .retrieve(sessionKey);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }

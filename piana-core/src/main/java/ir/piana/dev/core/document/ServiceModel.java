@@ -3,7 +3,7 @@ package ir.piana.dev.core.document;
 import java.util.List;
 
 /**
- * Created by SYSTEM on 7/19/2017.
+ * @author Mohammad Rahmati, 5/7/2017 5:20 PM
  */
 public class ServiceModel {
 //    private String resourceBaseUrl;

@@ -4,6 +4,9 @@ import ir.piana.dev.core.annotation.PianaSpaceProperty;
 
 import java.util.Properties;
 
+/**
+ * @author Mohammad Rahmati, 5/7/2017 5:20 PM
+ */
 public class PianaSpace {
     private static Properties properties = new Properties();
 

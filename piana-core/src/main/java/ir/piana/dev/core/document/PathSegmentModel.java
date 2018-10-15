@@ -1,7 +1,7 @@
 package ir.piana.dev.core.document;
 
 /**
- * Created by SYSTEM on 8/1/2017.
+ * @author Mohammad Rahmati, 5/7/2017 5:20 PM
  */
 public class PathSegmentModel {
     private String name;

@@ -7,6 +7,9 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.Charset;
 
+/**
+ * @author Mohammad Rahmati, 5/7/2017 5:20 PM
+ */
 public class PianaWebSocketHandler {
     private Logger logger = Logger
             .getLogger(PianaWebSocketHandler.class);
