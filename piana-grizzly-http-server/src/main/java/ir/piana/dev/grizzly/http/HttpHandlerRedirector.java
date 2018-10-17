@@ -3,13 +3,14 @@ package ir.piana.dev.grizzly.http;
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
+import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.grizzly.http.util.Header;
 import org.glassfish.grizzly.http.util.HttpStatus;
 
 /**
  * @author Mohammad Rahmati, 9/30/2018
  */
-final class HttpHandlerRedirector extends HttpHandler {
+final class HttpHandlerRedirector extends StaticHttpHandler {
     private String host;
     private int port;
     private boolean secure;

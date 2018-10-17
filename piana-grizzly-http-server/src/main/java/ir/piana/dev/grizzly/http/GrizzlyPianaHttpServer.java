@@ -6,6 +6,7 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -46,9 +47,10 @@ public class GrizzlyPianaHttpServer
             sslEngineConfigurator.setClientMode(false).setNeedClientAuth(false);
             httpServer = GrizzlyHttpServerFactory
                     .createHttpServer(getServerBaseUri(pianaServer), resourceConfig, true, sslEngineConfigurator);
-
+            ResourceConfig redirectResourceConfig = new ResourceConfig();
+            redirectResourceConfig.registerClasses(GrizzlyPianaRedirectorHandler.class);
             httpRedirector = GrizzlyHttpServerFactory
-                    .createHttpServer(getRedirectorBaseUri(pianaServer), resourceConfig);
+                    .createHttpServer(getRedirectorBaseUri(pianaServer), redirectResourceConfig);
             httpRedirector.getServerConfiguration()
                     .addHttpHandler(new HttpHandlerRedirector(
                             pianaServer.sslServer().httpsHost(),
@@ -64,6 +66,8 @@ public class GrizzlyPianaHttpServer
     protected void stopService()
             throws InterruptedException {
         httpServer.shutdown();
+        if(httpRedirector != null)
+            httpRedirector.shutdown();
         logger.info("http core stopped....");
     }
 }

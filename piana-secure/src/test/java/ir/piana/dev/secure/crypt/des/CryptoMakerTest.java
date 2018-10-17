@@ -21,13 +21,13 @@ public class CryptoMakerTest {
         byte[] encrypted = CryptoMaker.encrypt(
                 "Hello".getBytes("UTF-8"),
                 secretKey,
-                CryptoAttribute.DES_CBC_PKCS_5_PADDING);
-//                CryptoAttribute.DES_ECB_PKCS_5_PADDING);
+//                CryptoAttribute.DES_CBC_PKCS_5_PADDING);
+                CryptoAttribute.DES_ECB_PKCS_5_PADDING);
 //        System.out.println(Hex.encodeHexString(encrypted));
         byte[] decrypted = CryptoMaker.decrypt(encrypted,
                 secretKey,
-                CryptoAttribute.DES_CBC_PKCS_5_PADDING);
-//                CryptoAttribute.DES_ECB_PKCS_5_PADDING);
+//                CryptoAttribute.DES_CBC_PKCS_5_PADDING);
+                CryptoAttribute.DES_ECB_PKCS_5_PADDING);
         Assert.assertEquals("not correct decryption",
                 "Hello",
                 new String(decrypted, "UTF-8"));
