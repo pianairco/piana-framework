@@ -97,7 +97,8 @@ public class JettyPianaHttpServer
 //                    getServerBaseUri(pianaServer), sslContextFactory, resourceConfig);
         } else {
             server = JettyHttpContainerFactory.createServer(
-                    getServerBaseUri(pianaServer), resourceConfig);
+                    getServerBaseUri(pianaServer, properties), resourceConfig);
+//                    getServerBaseUri(pianaServer), resourceConfig);
         }
 
 //        create and start jetty core
@@ -164,7 +165,8 @@ public class JettyPianaHttpServer
 //                    getServerBaseUri(pianaServer), sslContextFactory, resourceConfig);
         } else {
             server = JettyHttpContainerFactory.createServer(
-                    getServerBaseUri(pianaServer), resourceConfig);
+                    getServerBaseUri(pianaServer, properties), resourceConfig);
+//                    getServerBaseUri(pianaServer), resourceConfig);
         }
 
 //        create and start jetty core

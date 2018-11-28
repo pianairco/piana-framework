@@ -107,6 +107,23 @@ public class RouteClassGenerator {
         }
     }
 
+    static JavaCompiler createJavaCompiler() {
+        JavaCompiler systemJavaCompiler = null;
+        try {
+            systemJavaCompiler = ToolProvider.getSystemJavaCompiler();
+            if(systemJavaCompiler == null) {
+                systemJavaCompiler = (JavaCompiler) Class.forName("com.sun.tools.javac.api.JavacTool").newInstance();
+            }
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return systemJavaCompiler;
+    }
+
     private static Class registerClass(
             String fullClassName,
             String classSource)
@@ -130,7 +147,7 @@ public class RouteClassGenerator {
         };
 
         final JavaFileManager javaFileManager = new ForwardingJavaFileManager(
-                ToolProvider.getSystemJavaCompiler().getStandardFileManager(null, null, null)) {
+                createJavaCompiler().getStandardFileManager(null, null, null)) {
 
             @Override
             public JavaFileObject getJavaFileForOutput(Location location,

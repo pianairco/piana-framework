@@ -1,5 +1,6 @@
 package ir.piana.dev.core;
 
+import ir.piana.dev.common.util.PropertiesFileUtil;
 import ir.piana.dev.core.annotation.AnnotationController;
 import ir.piana.dev.core.annotation.PianaServer;
 import ir.piana.dev.core.annotation.PianaSpaceProperty;
@@ -8,6 +9,7 @@ import ir.piana.dev.core.space.PianaSpace;
 import org.apache.log4j.Logger;
 
 import java.util.List;
+import java.util.Properties;
 
 /**
  * @author Mohammad Rahmati, 4/23/2017 12:13 PM
@@ -19,6 +21,7 @@ public abstract class PianaAnnotationAppMain {
 
     public static void start(PianaHttpServer pianaHttpServer, Class pianaServerAnnotatedClass)
             throws Exception {
+        Properties properties = PropertiesFileUtil.loadPropertiesFile();
         PianaServer pianaServer = AnnotationController
                 .getPianaServer(pianaServerAnnotatedClass);
         List<PianaSpaceProperty> pianaSpaceProperties = AnnotationController
@@ -27,6 +30,7 @@ public abstract class PianaAnnotationAppMain {
             PianaSpace.setProperty(spaceProperty);
         }
         pianaHttpServer.setPianaServer(pianaServer);
+        pianaHttpServer.setProperties(properties);
         pianaHttpServer.start();
         logger.debug("core started. please wait for initialize...");
     }

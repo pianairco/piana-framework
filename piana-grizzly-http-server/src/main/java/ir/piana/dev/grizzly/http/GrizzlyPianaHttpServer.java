@@ -31,7 +31,8 @@ public class GrizzlyPianaHttpServer
 
         if(pianaServer.sslServer().keyStoreName().isEmpty()) {
             httpServer = GrizzlyHttpServerFactory
-                    .createHttpServer(getServerBaseUri(pianaServer), resourceConfig);
+                    .createHttpServer(getServerBaseUri(pianaServer, properties), resourceConfig);
+//                    .createHttpServer(getServerBaseUri(pianaServer), resourceConfig);
         } else {
             SSLContextConfigurator sslCon = new SSLContextConfigurator();
             byte[] bytes = new byte[0];
@@ -45,8 +46,9 @@ public class GrizzlyPianaHttpServer
             sslCon.setKeyStorePass(pianaServer.sslServer().keyStorePassword());
             SSLEngineConfigurator sslEngineConfigurator = new SSLEngineConfigurator(sslCon);
             sslEngineConfigurator.setClientMode(false).setNeedClientAuth(false);
-            httpServer = GrizzlyHttpServerFactory
-                    .createHttpServer(getServerBaseUri(pianaServer), resourceConfig, true, sslEngineConfigurator);
+            httpServer = GrizzlyHttpServerFactory.createHttpServer(
+                    getServerBaseUri(pianaServer, properties), resourceConfig, true, sslEngineConfigurator);
+//                    getServerBaseUri(pianaServer), resourceConfig, true, sslEngineConfigurator);
             ResourceConfig redirectResourceConfig = new ResourceConfig();
             redirectResourceConfig.registerClasses(GrizzlyPianaRedirectorHandler.class);
             httpRedirector = GrizzlyHttpServerFactory

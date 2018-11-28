@@ -15,6 +15,7 @@ import java.net.ServerSocket;
 import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -30,6 +31,7 @@ public abstract class PianaHttpServer {
     protected SessionManager sessionManager = null;
     private boolean isStart = false;
     protected PianaServer pianaServer;
+    protected Properties properties;
 
 //    public static PianaHttpServer createServer(
 //            PianaServer pianaServer)
@@ -53,7 +55,11 @@ public abstract class PianaHttpServer {
         this.pianaServer = pianaServer;
     }
 
-    public void addProperties(
+    public void setProperties(Properties properties) {
+        this.properties = properties;
+    }
+
+    public void addHttpProperties(
             String key, Object property) {
         httpProperties.put(key, property);
     }
@@ -135,6 +141,34 @@ public abstract class PianaHttpServer {
                     .concat(":")
                     .concat(String.valueOf(pianaServer.httpPort()))
                     .concat("/");
+        basePath.concat(pianaServer.httpBaseUrl());
+
+        return UriBuilder.fromUri(basePath)
+                .build();
+    }
+
+    public URI getServerBaseUri(PianaServer pianaServer, Properties properties) {
+        String basePath = "";
+        if (!pianaServer.sslServer().keyStoreName().isEmpty())
+            basePath = basePath.concat("https://")
+                    .concat(pianaServer.sslServer().httpsHost())
+                    .concat(":")
+                    .concat(String.valueOf(pianaServer.sslServer().httpsPort()))
+                    .concat("/");
+        else {
+            String host = properties.getProperty("http-ip");
+            if(host == null)
+                host = pianaServer.host();
+
+            String port = properties.getProperty("http-port");
+            if(port == null)
+                port = String.valueOf(pianaServer.httpPort());
+            basePath = basePath.concat("http://")
+                    .concat(host)
+                    .concat(":")
+                    .concat(port)
+                    .concat("/");
+        }
         basePath.concat(pianaServer.httpBaseUrl());
 
         return UriBuilder.fromUri(basePath)
