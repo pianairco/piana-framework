@@ -19,13 +19,13 @@ public class PropertiesFileUtil {
             System.out.println("propertiesFile loaded successfully.");
         } catch (IOException ex) {
             System.out.println("propertiesFile not loaded successfully.");
-            ex.printStackTrace();
+//            ex.printStackTrace();
         } finally {
             if (input != null) {
                 try {
                     input.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
                     System.out.println("input stream of properties file close exception.");
                 }
             }
