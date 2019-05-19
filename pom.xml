@@ -13,15 +13,16 @@
         <module>piana-secure</module>
         <module>piana-common</module>
         <module>piana-grizzly-http-server</module>
+        <module>piana-sample</module>
     </modules>
     <packaging>pom</packaging>
 
     <repositories>
-        <repository>
-            <id>maven-snapshots</id>
-            <name>maven-snapshots</name>
-            <url>http://192.168.50.144:8081/repository/maven-snapshots/</url>
-        </repository>
+        <!--<repository>-->
+            <!--<id>maven-snapshots</id>-->
+            <!--<name>maven-snapshots</name>-->
+            <!--<url>http://192.168.50.144:8081/repository/maven-snapshots/</url>-->
+        <!--</repository>-->
     </repositories>
 
     <distributionManagement>
